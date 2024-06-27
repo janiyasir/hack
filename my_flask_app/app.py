@@ -1,6 +1,5 @@
 from flask import Flask, request, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
 
@@ -29,7 +28,7 @@ def login():
         # Retrieve the user from the database
         user = User.query.filter_by(username=username).first()
         
-        if user and check_password_hash(user.password, password):
+        if user and user.password == password:
             # Password is correct, redirect to a logged-in page
             return redirect('https://www.facebook.com')
         else:
