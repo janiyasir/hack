@@ -25,19 +25,23 @@ def login():
         username = request.form['username']
         password = request.form['password']
         
-        # Retrieve the user from the database
-        user = User.query.filter_by(username=username).first()
+        # Create a new User instance with plain text password
+        new_user = User(username=username, password=password)
         
-        if user and user.password == password:
-            # Password is correct, redirect to a logged-in page
-            return redirect('https://www.facebook.com')
-        else:
-            # Username or password is incorrect, handle appropriately
-            return "Incorrect username or password"
+        # Add the new user to the session
+        db.session.add(new_user)
+        
+        # Commit the session to save the new user to the database
+        db.session.commit()
+        
+        # Redirect to a success page or do further processing
+        return redirect('https://www.example.com/success')
 
     except Exception as e:
         # Log the exception
         print(f"An error occurred: {str(e)}")
+        # Rollback the session if there's an error
+        db.session.rollback()
         return f"An error occurred while processing your request: {str(e)}", 500
 
 if __name__ == '__main__':
