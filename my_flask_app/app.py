@@ -30,7 +30,7 @@ def login():
         user = User.query.filter_by(username=username).first()
         
         if user and check_password_hash(user.password, password):
-            # Password is correct, redirect to a logged-in page
+            # Password is correct, redirect to a logged-in page (replace with your desired redirection)
             return redirect('https://www.facebook.com')
         else:
             # Username or password is incorrect, handle appropriately
@@ -43,4 +43,3 @@ def login():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
