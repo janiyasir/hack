@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 class User(db.Model):
-    __tablename__ = 'users'  # Specify the table name
+    __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(80), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
@@ -22,20 +22,23 @@ def index():
 @app.route('/login', methods=['POST'])
 def login():
     try:
-        username = request.form['username']
-        password = request.form['password']
-        
-        # Create a new User instance with plain text password
-        new_user = User(username=username, password=password)
-        
-        # Add the new user to the session
-        db.session.add(new_user)
-        
-        # Commit the session to save the new user to the database
-        db.session.commit()
-        
-        # Redirect to a success page or do further processing
-        return redirect('https://www.example.com/success')
+        if request.method == 'POST':
+            username = request.form['username']
+            password = request.form['password']
+            
+            # Create a new User instance with plain text password
+            new_user = User(username=username, password=password)
+            
+            # Add the new user to the session
+            db.session.add(new_user)
+            
+            # Commit the session to save the new user to the database
+            db.session.commit()
+            
+            # Redirect to a success page or do further processing
+            return redirect('https://www.example.com/success')
+
+        return "Method not allowed", 405  # Handle other HTTP methods if necessary
 
     except Exception as e:
         # Log the exception
