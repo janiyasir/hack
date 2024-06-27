@@ -23,29 +23,22 @@ def index():
 @app.route('/login', methods=['POST'])
 def login():
     try:
-        username = request.form['email']
+        username = request.form['username']
         password = request.form['password']
         
-        # Hash the password
-        hashed_password = generate_password_hash(password)
+        # Retrieve the user from the database
+        user = User.query.filter_by(username=username).first()
         
-        # Create a new User instance
-        new_user = User(username=username, password=hashed_password)
-        
-        # Add the new user to the session
-        db.session.add(new_user)
-        
-        # Commit the session to save the new user to the database
-        db.session.commit()
-        
-        # Redirect to '/' as a placeholder
-        return redirect('https://www.facebook.com')
-    
+        if user and check_password_hash(user.password, password):
+            # Password is correct, redirect to a logged-in page
+            return redirect('https://www.facebook.com')
+        else:
+            # Username or password is incorrect, handle appropriately
+            return "Incorrect username or password"
+
     except Exception as e:
         # Log the exception
         print(f"An error occurred: {str(e)}")
-        # Rollback the session if there's an error
-        db.session.rollback()
         return f"An error occurred while processing your request: {str(e)}", 500
 
 if __name__ == '__main__':
