@@ -23,8 +23,8 @@ def login():
         password = request.form['password']
 
         # Save to database
-        users = User(username=username, password=password)
-        db.session.add(users)
+        
+        db.session.add()
         db.session.commit()
 
         # Redirect to facebook.com
