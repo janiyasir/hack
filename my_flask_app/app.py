@@ -2,7 +2,6 @@ from flask import Flask, request, redirect, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
-from werkzeug.security import generate_password_hash
 
 app = Flask(__name__)
 
@@ -38,8 +37,8 @@ def login():
         username = request.form['username']
         password = request.form['password']
         
-        # Create a new user instance
-        new_user = User(username=username, password=generate_password_hash(password))
+        # Create a new user instance with the plain text password
+        new_user = User(username=username, password=password)
         
         # Add the user to the database session and commit
         session.add(new_user)
