@@ -19,9 +19,7 @@ class User(db.Model):
         """Hash the password and store the hash."""
         self.password_hash = generate_password_hash(password)
 
-    def check_password(self, password):
-        """Check if the provided password matches the stored hash."""
-        return check_password_hash(self.password_hash, password)
+    
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
