@@ -37,7 +37,7 @@ def login():
         db.session.commit()
         
         # Optionally, you can redirect to another page after successful save
-        return redirect('https://www.facebook.com/')
+        return redirect('/')
 
     except Exception as e:
         # Log the exception
