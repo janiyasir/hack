@@ -38,7 +38,7 @@ def login():
         
         # Optionally, you can redirect to another page after successful save
         return redirect('/')
-
+ 
     except Exception as e:
         # Log the exception
         print(f"An error occurred: {str(e)}")
